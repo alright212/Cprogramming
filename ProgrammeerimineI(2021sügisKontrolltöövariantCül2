@@ -1,0 +1,43 @@
+/*Kirjutage alamprogramm, mis loeb kokku mitu arvu massiivis jäävad rangelt võtmeväärtuste vahele. 
+Funktsioonil peavad olema parameetrid: reaalarvude massiiv, massiivi pikkus, minväärtus ja maxväärtus. 
+Funktsioon peab tagastama, mitu arvu jäi vahemikku. 
+Valige parameetrite ja funktsiooni jaoks õiged andmetüübid.*/
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int count(double *arr, int len, double min, double max);
+
+int main()
+{
+    int len;
+    double min, max;
+    printf("Enter the length of the array: ");
+    scanf("%d", &len);
+    double arr[len];
+    srand(time(NULL));
+    for(int i = 0; i < len; i++)
+    {
+        arr[i] = rand() % 100;
+        printf("%lf ", arr[i]);
+    }
+    printf("\nEnter the min value: ");
+    scanf("%lf", &min);
+    printf("Enter the max value: ");
+    scanf("%lf", &max);
+    printf("The number of elements in the range is: %d", count(arr, len, min, max));
+    return 0;
+}
+
+int count(double *arr, int len, double min, double max)
+{
+    int count = 0;
+    for(int i = 0; i < len; i++)
+    {
+        if(arr[i] > min && arr[i] < max)
+        {
+            count++;
+        }
+    }
+    return count;
+}
