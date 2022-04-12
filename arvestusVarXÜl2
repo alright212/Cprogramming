@@ -1,0 +1,46 @@
+/*Kirjutage alamprogramm, mis asendab tekstis viimase etteantud sümboli uue sumboliga ja tagastab selle muudatuse asukoha. 
+Kui asendatavat ei leidu, sis tagastatakse -1. Alamprogrammil peavad olema järgmised parameetrid: tekst, vana sümbol, uus sümbol. 
+Valige parameetrite ja funktsiooni jaoks öiged andmetüübid.*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int replace(char *text, char old_symbol, char new_symbol)
+{
+    int i, len = strlen(text);
+    for(i = len - 1; i >= 0; i--)
+    {
+        if(text[i] == old_symbol)
+        {
+            text[i] = new_symbol;
+            return i;
+        }
+    }
+    return -1;
+}
+
+int main()
+{
+    char text[100], old_symbol, new_symbol;
+    int pos;
+    printf("Enter text: ");
+    gets(text);
+    printf("Enter old symbol: ");
+    scanf("%c", &old_symbol);
+    fflush(stdin);
+    printf("Enter new symbol: ");
+    scanf("%c", &new_symbol);
+    fflush(stdin);
+    pos = replace(text, old_symbol, new_symbol);
+    if(pos == -1)
+    {
+        printf("No replacement found!\n");
+    }
+    else
+    {
+        printf("New text: %s\n", text);
+        printf("Position of the change: %d\n", pos);
+    }
+    return 0;
+}
