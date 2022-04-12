@@ -1,0 +1,117 @@
+/*Kasutaja sisestab failinime F ja positive väärtuse X. Lugege failist F ruutmaatriksi suurus ning ruutmaatriksi elemendid. Maatriks peab olema vähemalt suurusega 3x3. Analüüsige maatriksit järgmiselt: Lugege kokku, mitu i-nda rea ja i-nda veeru kohakuti olevat elementi on vördsed (i = 1 rida ja veerg on näites värvitud).
+Tehke sama peadiagonaali ja körvaldiagonaali jaoks.
+Kuvage need indeksid, kus vördsete elementide summa on suurem kui X.
+*/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_STR_LEN 100
+
+int read_matrix(int matrix[][MAX_STR_LEN], int *n, char *filename);
+int check_matrix(int matrix[][MAX_STR_LEN], int n, int x);
+
+int main()
+{
+    int matrix[MAX_STR_LEN][MAX_STR_LEN];
+    int n;
+    int x;
+    char filename[MAX_STR_LEN];
+
+    printf("Enter the file name: ");
+    scanf("%s", filename);
+
+    printf("Enter the value of X: ");
+    scanf("%d", &x);
+
+    if (read_matrix(matrix, &n, filename) == 1)
+    {
+        printf("Error reading the file!\n");
+        return 1;
+    }
+
+    if (check_matrix(matrix, n, x) == 1)
+    {
+        printf("Error checking the matrix!\n");
+        return 1;
+    }
+
+    return 0;
+}
+
+int read_matrix(int matrix[][MAX_STR_LEN], int *n, char *filename)
+{
+    FILE *f;
+    int i, j;
+
+    f = fopen(filename, "r");
+    if (f == NULL)
+    {
+        return 1;
+    }
+
+    fscanf(f, "%d", n);
+
+    for (i = 0; i < *n; i++)
+    {
+        for (j = 0; j < *n; j++)
+        {
+            fscanf(f, "%d", &matrix[i][j]);
+        }
+    }
+
+    fclose(f);
+
+    return 0;
+}
+
+int check_matrix(int matrix[][MAX_STR_LEN], int n, int x)
+{
+    int i, j;
+    int sum_row, sum_column, sum_main_diagonal, sum_circular_diagonal;
+
+    for (i = 0; i < n; i++)
+    {
+        sum_row = 0;
+        sum_column = 0;
+        sum_main_diagonal = 0;
+        sum_circular_diagonal = 0;
+
+        for (j = 0; j < n; j++)
+        {
+            if (matrix[i][j] == matrix[j][i])
+            {
+                sum_row++;
+                sum_column++;
+            }
+
+            if (matrix[i][j] == matrix[j][n - j - 1])
+            {
+                sum_main_diagonal++;
+                sum_circular_diagonal++;
+            }
+        }
+
+        if (sum_row > x)
+        {
+            printf("The sum of the equal elements in the %d-th row is greater than %d.\n", i + 1, x);
+        }
+
+        if (sum_column > x)
+        {
+            printf("The sum of the equal elements in the %d-th column is greater than %d.\n", i + 1, x);
+        }
+
+        if (sum_main_diagonal > x)
+        {
+            printf("The sum of the equal elements in the main diagonal is greater than %d.\n", x);
+        }
+
+        if (sum_circular_diagonal > x)
+        {
+            printf("The sum of the equal elements in the circular diagonal is greater than %d.\n", x);
+        }
+    }
+
+    return 0;
+}
