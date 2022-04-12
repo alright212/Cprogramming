@@ -1,0 +1,36 @@
+/*Kirjutage alamprogramm, mis asendab tekstis vastavalt suunaparameetrile väikesed tähed suurte tähtedega või suured tähed väikeste tähtedega
+ning tagastab muudatuste arvu. Alamprogrammil peavad olema järgmised parameetrid: tekst, suuna tähis. 
+Valige parameetrite ja funktsiooni jaoks õiged andmetüübid.*/
+
+#include <stdio.h>
+#include <string.h>
+
+int change(char *text, char direction) {
+    int i, count = 0;
+    for (i = 0; i < strlen(text); i++) {
+        if (direction == 'u') {
+            if (text[i] >= 'a' && text[i] <= 'z') {
+                text[i] -= 32;
+                count++;
+            }
+        } else if (direction == 'l') {
+            if (text[i] >= 'A' && text[i] <= 'Z') {
+                text[i] += 32;
+                count++;
+            }
+        }
+    }
+    return count;
+}
+
+int main() {
+    char text[100];
+    char direction;
+    printf("Enter text: ");
+    gets(text);
+    printf("Enter direction (u/l): ");
+    scanf("%c", &direction);
+    printf("Changes: %d\n", change(text, direction));
+    printf("Text: %s\n", text);
+    return 0;
+}
