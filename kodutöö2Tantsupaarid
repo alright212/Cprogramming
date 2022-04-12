@@ -1,0 +1,103 @@
+/*VARIANT 2: Tantsupaarid
+
+On antud neli massiivi – poiste nimed ja pikkused ning tüdrukute nimed ja pikkused (pikkused on antud sentimeetrites). Massiivid ei ole järjestatud.
+
+Koosta programm, mis moodustab tantsupaarid vastavalt toodud tingimustele:
+
+Kui poisse ja tüdrukuid on võrdselt, siis moodustatakse paarid nii, et kõige pikem poiss tantsib kõige pikema tüdrukuga, pikkuselt järgmised omavahel paaris jne.
+Kui ühe soo esindajaid on rohkem kui teise soo esindajaid (näiteks tüdrukuid on rohkem kui poisse või poisse rohkem kui tüdrukuid), siis sobiv arv kõige pikemaid jääb paariliseta.
+Lahenduses kasuta alamprogramme:
+
+Nimede ja pikkuste lugemiseks (üks funktsioon, kaks pöördumist poiste ja tüdrukute lugemiseks).
+Pikkuste väljastamiseks.
+Tantsijate järjestamiseks pikkuse järgi.
+Tantsupaaride ja paariliseta tantsijate väljastamiseks.
+Lähtefail on nimega 2a.txt
+7 
+Juhan 180
+Peeter 175
+Toomas 200
+Ats 172
+Vahur 169
+Anti 183
+Dmitri 188
+6 
+Mari 165
+Aliis 167
+Leena 172
+Olga 169
+Tiina 162
+Veera 190
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct{
+	char name[20];
+	int length;
+}dancer;
+
+void read(dancer *dancers, int n){
+	for(int i = 0; i < n; i++){
+		scanf("%s %d", dancers[i].name, &dancers[i].length);
+	}
+}
+
+void sort(dancer *dancers, int n){
+	for(int i = 0; i < n-1; i++){
+		for(int j = i+1; j < n; j++){
+			if(dancers[i].length < dancers[j].length){
+				dancer temp = dancers[i];
+				dancers[i] = dancers[j];
+				dancers[j] = temp;
+			}
+		}
+	}
+}
+
+void print(dancer *dancers, int n){
+	for(int i = 0; i < n; i++){
+		printf("%s %d\n", dancers[i].name, dancers[i].length);
+	}
+}
+
+void print_couples(dancer *boys, dancer *girls, int n){
+	int i = 0;
+	while(i < n){
+		printf("%s %s\n", boys[i].name, girls[i].name);
+		i++;
+	}
+}
+
+void print_unpaired(dancer *dancers, int n){
+	for(int i = 0; i < n; i++){
+		printf("%s\n", dancers[i].name);
+	}
+}
+
+int main(int argc, char *argv[]) {
+	int n;
+	scanf("%d", &n);
+	dancer *boys = (dancer*)malloc(n*sizeof(dancer));
+	read(boys, n);
+	sort(boys, n);
+	
+	scanf("%d", &n);
+	dancer *girls = (dancer*)malloc(n*sizeof(dancer));
+	read(girls, n);
+	sort(girls, n);
+	
+	if(n > n){
+		print_couples(boys, girls, n);
+		print_unpaired(boys+n, n-n);
+	}else{
+		print_couples(boys, girls, n);
+		print_unpaired(girls+n, n-n);
+	}
+	
+	free(boys);
+	free(girls);
+	return 0;
+}
