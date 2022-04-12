@@ -1,0 +1,40 @@
+/*Kirjutage alamprogramm, mis asendab tekstis kuni n esimest etteantud sumbolit uue sümboliga ja tagastab asenduste arvu. Kui korduste arv n on negatiivne, siis asendatakse kõik etteantud sümbolid uuega. Alamprogrammil peavad olema järgmised parameetrid: tekst, vana sümbol, uus sümbol, korduste
+arv. Valige parameetrite ja funktsiooni jaoks õiged andmetüübid.*/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int replace(char *text, char old_symbol, char new_symbol, int n)
+{
+    int i, count = 0;
+    for (i = 0; i < strlen(text); i++)
+    {
+        if (text[i] == old_symbol)
+        {
+            text[i] = new_symbol;
+            count++;
+            if (count == n)
+            {
+                break;
+            }
+        }
+    }
+    return count;
+}
+
+int main()
+{
+    char text[100], old_symbol, new_symbol;
+    int n;
+    printf("Enter text: ");
+    gets(text);
+    printf("Enter old symbol: ");
+    scanf("%c", &old_symbol);
+    printf("Enter new symbol: ");
+    scanf("%c", &new_symbol);
+    printf("Enter number of repetitions: ");
+    scanf("%d", &n);
+    printf("Number of substitutions: %d\n", replace(text, old_symbol, new_symbol, n));
+    printf("Text: %s\n", text);
+    return 0;
+}
