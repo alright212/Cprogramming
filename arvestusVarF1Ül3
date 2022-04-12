@@ -1,0 +1,48 @@
+/*Kirjutage rakendus, millele antakse parameetritega ette positiivne reaalarv dX (dX < 1) ning failinimi F.
+Kirjutage faili F tabel X ja sin(X) väärtustest, kus X muutub vahemikus 0 kuni PI sammuga dX:
+Ei saanud väga ülesande kirjeldusest aru...*/
+
+#include <stdio.h>
+#include <math.h>
+
+int main()
+{
+	FILE *f;
+	f = fopen("sin.txt", "w");
+	double dx = 0.1;
+	double x = 0;
+	while (x <= M_PI)
+	{
+		fprintf(f, "%lf %lf\n", x, sin(x));
+		x += dx;
+	}
+	fclose(f);
+	return 0;
+}
+
+#include <stdio.h>
+#include <math.h>
+
+int main()
+{
+    FILE *f;
+    float dX, X, sinX;
+    char filename[20];
+
+    printf("Enter dX: ");
+    scanf("%f", &dX);
+    printf("Enter filename: ");
+    scanf("%s", filename);
+
+    f = fopen(filename, "w");
+
+    for(X = 0; X <= M_PI; X += dX)
+    {
+        sinX = sin(X);
+        fprintf(f, "X = %f, sin(X) = %f\n", X, sinX);
+    }
+
+    fclose(f);
+
+    return 0;
+}
