@@ -1,0 +1,76 @@
+/*Kasutaja sisestab väärtuse N ja N sõna pikkusega kuni 20 sümbolit.
+Kontrollige iga sõna kohta, kas selle tähed on sorditud ja andke hinnang. Suur ja väiketähti ei tohi eristada. Ignoreerige täpitähti.
+Kasutaja peab saama kõik sõnad sisestada, kontroll peab toimuma hiljem. Koostage algoritm ja kirjutage programm. Võimalusel kasutage alamprogramme.*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+#define MAX_LENGTH 20
+
+void check_words(char **words, int n);
+
+int main()
+{
+    int n;
+    char **words;
+    printf("Enter the number of words: ");
+    scanf("%d", &n);
+    words = (char **)malloc(n * sizeof(char *));
+    for (int i = 0; i < n; i++)
+    {
+        words[i] = (char *)malloc(MAX_LENGTH * sizeof(char));
+        printf("Enter word %d: ", i + 1);
+        scanf("%s", words[i]);
+    }
+    check_words(words, n);
+    for (int i = 0; i < n; i++)
+    {
+        free(words[i]);
+    }
+    free(words);
+    return 0;
+}
+
+void check_words(char **words, int n)
+{
+    char *sorted_ascendingly = "sorted ascendingly";
+    char *sorted_descendingly = "sorted descendingly";
+    char *not_sorted = "not sorted";
+    char *too_short = "too short";
+    for (int i = 0; i < n; i++)
+    {
+        int length = strlen(words[i]);
+        if (length < 2)
+        {
+            printf("%s is %s\n", words[i], too_short);
+            continue;
+        }
+        int ascending = 1;
+        int descending = 1;
+        for (int j = 0; j < length - 1; j++)
+        {
+            if (tolower(words[i][j]) > tolower(words[i][j + 1]))
+            {
+                ascending = 0;
+            }
+            if (tolower(words[i][j]) < tolower(words[i][j + 1]))
+            {
+                descending = 0;
+            }
+        }
+        if (ascending)
+        {
+            printf("%s is %s\n", words[i], sorted_ascendingly);
+        }
+        else if (descending)
+        {
+            printf("%s is %s\n", words[i], sorted_descendingly);
+        }
+        else
+        {
+            printf("%s is %s\n", words[i], not_sorted);
+        }
+    }
+}
