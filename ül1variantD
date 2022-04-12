@@ -1,0 +1,110 @@
+/*Kasutaja sisestab väärtuse N ja N sõna pikkusega kuni 20 sümbolit.
+Kontrollige iga sõna kohta, kas see võiks olla kahendarv, kaheksandarv, 16-ndarv või tavaline sõna. 16ndarv peab toetama nii suur kui väiketähti.
+Kasutaja peab saama kõik sõnad sisestada, kontroll peab toimuma hiljem. Koostage algoritm ja kirjutage programm. Võimalusel kasutage alamprogramme.*/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+#define MAX_LENGTH 20
+
+typedef struct node{
+	char word[MAX_LENGTH];
+	struct node *next;
+}node;
+
+node *head = NULL;
+node *tail = NULL;
+
+void insert(char *word);
+void print();
+void check();
+int isBinary(char *word);
+int isOctal(char *word);
+int isHex(char *word);
+
+int main(){
+	int n;
+	char word[MAX_LENGTH];
+	printf("Enter the number of words: ");
+	scanf("%d", &n);
+	for(int i = 0; i < n; i++){
+		printf("Enter word %d: ", i+1);
+		scanf("%s", word);
+		insert(word);
+	}
+	print();
+	check();
+	return 0;
+}
+
+void insert(char *word){
+	node *newNode = (node*)malloc(sizeof(node));
+	strcpy(newNode->word, word);
+	newNode->next = NULL;
+	if(head == NULL){
+		head = newNode;
+		tail = newNode;
+	}
+	else{
+		tail->next = newNode;
+		tail = newNode;
+	}
+}
+
+void print(){
+	node *temp = head;
+	while(temp != NULL){
+		printf("%s\n", temp->word);
+		temp = temp->next;
+	}
+}
+
+void check(){
+	node *temp = head;
+	while(temp != NULL){
+		if(isBinary(temp->word)){
+			printf("%s is a binary number\n", temp->word);
+		}
+		else if(isOctal(temp->word)){
+			printf("%s is an octal number\n", temp->word);
+		}
+		else if(isHex(temp->word)){
+			printf("%s is a hexadecimal number\n", temp->word);
+		}
+		else{
+			printf("%s is a regular word\n", temp->word);
+		}
+		temp = temp->next;
+	}
+}
+
+int isBinary(char *word){
+	int length = strlen(word);
+	for(int i = 0; i < length; i++){
+		if(word[i] != '0' && word[i] != '1'){
+			return 0;
+		}
+	}
+	return 1;
+}
+
+int isOctal(char *word){
+	int length = strlen(word);
+	for(int i = 0; i < length; i++){
+		if(word[i] < '0' || word[i] > '7'){
+			return 0;
+		}
+	}
+	return 1;
+}
+
+int isHex(char *word){
+	int length = strlen(word);
+	for(int i = 0; i < length; i++){
+		if(!isdigit(word[i]) && (word[i] < 'A' || word[i] > 'F') && (word[i] < 'a' || word[i] > 'f')){
+			return 0;
+		}
+	}
+	return 1;
+}
