@@ -1,0 +1,78 @@
+/*Kasutaja sisestab ruutmaatriks suuruse N (N > 2), vahemiku väärtuse V (V > 3) ja failinime F. Täitke
+maatriks juhuslike arvudega järgmiselt (vaadake näidet):
+Peadiagonaali ja körvaldiagonaali kohal ning peadiagonaali ja kõrvaldiagonaali all olevad elemendid (ülemine ja alumine kolmnurk) on positivsed juhuslikud arvud vahemikus 1 kuni V. Peadiagonaali all ja kõrvaldiagonaali kohal ning kõrvaldiagonaali all ja peadiagonaali kohal (vasak ja parem kolmnurk) on negatiived juhuslikud arvud vahemikus -V kuni -1.
+Peadiagonaali ja kõrvaldiagonaali elemendid on väärtusega 0.
+Salvestage maatriks tekstifaili F.
+Kirjutage programm. Kasutage vähemalt kolme alamprogrammi, millet üks tagastab sisulise väärtuse.*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int main()
+{
+    int n, v, i, j, k, l;
+    int **matrix;
+    char f[20];
+    FILE *fp;
+
+    printf("Enter the size of the matrix: ");
+    scanf("%d", &n);
+    printf("Enter the range of the matrix: ");
+    scanf("%d", &v);
+    printf("Enter the name of the file: ");
+    scanf("%s", f);
+
+    matrix = (int **)malloc(n * sizeof(int *));
+    for (i = 0; i < n; i++)
+    {
+        matrix[i] = (int *)malloc(n * sizeof(int));
+    }
+
+    srand(time(NULL));
+
+    for (i = 0; i < n; i++)
+    {
+        for (j = 0; j < n; j++)
+        {
+            if (i == j || i == n - j - 1)
+            {
+                matrix[i][j] = 0;
+            }
+            else if (i < j)
+            {
+                matrix[i][j] = rand() % v + 1;
+            }
+            else
+            {
+                matrix[i][j] = -(rand() % v + 1);
+            }
+        }
+    }
+
+    fp = fopen(f, "w");
+    if (fp == NULL)
+    {
+        printf("Error opening file!\n");
+        exit(1);
+    }
+
+    for (i = 0; i < n; i++)
+    {
+        for (j = 0; j < n; j++)
+        {
+            fprintf(fp, "%d ", matrix[i][j]);
+        }
+        fprintf(fp, "\n");
+    }
+
+    fclose(fp);
+
+    for (i = 0; i < n; i++)
+    {
+        free(matrix[i]);
+    }
+    free(matrix);
+
+    return 0;
+}
