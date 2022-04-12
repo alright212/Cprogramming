@@ -1,0 +1,46 @@
+/*Kirjutage alamprogramm, mis likvideerib tekstist kuni n etteantud sümbolit ja tagastab asenduste arvu.
+Kui likvideeritavat sümbolit ei leidu, sis teksti ei muudeta ja tagastatakse O. Alamprogrammil peavad
+olema järgmised parametrid: tekst, likvideeritav sümbol, korduste arv. Valige parameetrite ja
+funktsiooni jaoks öiged andmetüübid.*/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_LEN 100
+
+int remove_char(char *text, char c, int n)
+{
+    int i, j, count = 0;
+    for (i = 0; i < strlen(text); i++)
+    {
+        if (text[i] == c)
+        {
+            for (j = i; j < strlen(text); j++)
+            {
+                text[j] = text[j + 1];
+            }
+            count++;
+            if (count == n)
+            {
+                break;
+            }
+            i--;
+        }
+    }
+    return count;
+}
+
+int main()
+{
+    char text[MAX_LEN], c;
+    int n;
+    printf("Enter a text: ");
+    gets(text);
+    printf("Enter a character to be removed: ");
+    scanf("%c", &c);
+    printf("Enter the number of repetitions: ");
+    scanf("%d", &n);
+    printf("Number of substitutions: %d\n", remove_char(text, c, n));
+    printf("Text: %s\n", text);
+    return 0;
+}
