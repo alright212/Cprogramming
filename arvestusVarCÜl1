@@ -1,0 +1,85 @@
+/*Kasutaja sisestab maatriksi möötmed Read (Read > 2) ja Veerud (Veerud > 2), vahemiku väärtuse V
+ning failinime F. Täitke maatriks juhuslike arvudega vahemikus -V kuni V nii, et iga veeru summa oleks
+null. Vähemalt pooled veeru elemendid peavad olema juhuslikud. Salvestage maatriks tekstifaili F.
+Kirjutage programm. Kasutage vähemalt kolme alamprogrammi, millest üks tagastab sisulise väärtuse.*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+void fillMatrix(int rows, int columns, int v, int matrix[rows][columns]);
+void saveMatrix(int rows, int columns, int matrix[rows][columns], char *fileName);
+void fileReading(
+    int rows,
+    int columns,
+    int matrix[rows][columns],
+    char *fileName
+);
+
+int main(int argc, char const *argv[])
+{
+    int rows, columns, v;
+    char fileName[100];
+    printf("Enter the number of rows: ");
+    scanf("%d", &rows);
+    printf("Enter the number of columns: ");
+    scanf("%d", &columns);
+    printf("Enter the range value: ");
+    scanf("%d", &v);
+    printf("Enter the file name: ");
+    scanf("%s", fileName);
+    int matrix[rows][columns];
+    fillMatrix(rows, columns, v, matrix);
+    saveMatrix(rows, columns, matrix, fileName);
+    fileReading(rows, columns, matrix, fileName);
+    return 0;
+}
+
+void fillMatrix(int rows, int columns, int v, int matrix[rows][columns])
+{
+    srand(time(NULL));
+    int i, j;
+    for (i = 0; i < rows; i++)
+    {
+        for (j = 0; j < columns; j++)
+        {
+            matrix[i][j] = rand() % (2 * v + 1) - v;
+        }
+    }
+}
+
+void saveMatrix(int rows, int columns, int matrix[rows][columns], char *fileName)
+{
+    FILE *fp;
+    fp = fopen(fileName, "w");
+    int i, j;
+    for (i = 0; i < rows; i++)
+    {
+        for (j = 0; j < columns; j++)
+        {
+            fprintf(fp, "%d ", matrix[i][j]);
+        }
+        fprintf(fp, "\n");
+    }
+    fclose(fp);
+}
+
+void fileReading(
+    int rows,
+    int columns,
+    int matrix[rows][columns],
+    char *fileName
+)
+{
+    FILE *fp;
+    fp = fopen(fileName, "r");
+    int i, j;
+    for (i = 0; i < rows; i++)
+    {
+        for (j = 0; j < columns; j++)
+        {
+            fscanf(fp, "%d", &matrix[i][j]);
+        }
+    }
+    fclose(fp);
+}
