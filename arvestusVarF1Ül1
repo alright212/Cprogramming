@@ -1,0 +1,62 @@
+/*Kasutaja sisestab maatriksi mõõtmed Read (Read > 4) ja Veerud (Veerud > 4) ning positiivse väärtuse K (K > 8). Täitke maatriks arvudega järgmiselt (vaadake näidet):
+• Kõigepealt täitke maatriks nullidega.
+• Asendage paaritus reas elemendid juhuslike paaritute arvudega vahemikus 1 kuni K
+• Asendage paaris veerus elemendid juhuslike paaris arvudega vahemikus 2 kuni K.
+Kirjutage programm. Kasutage vähemalt kolme alamprogrammi, millest üks tagastab sisulise väärtuse.*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+void fill_matrix(int rows, int columns, int matrix[rows][columns], int k);
+void print_matrix(int rows, int columns, int matrix[rows][columns]);
+
+int main()
+{
+    int rows, columns, k;
+    printf("Enter the number of rows: ");
+    scanf("%d", &rows);
+    printf("Enter the number of columns: ");
+    scanf("%d", &columns);
+    printf("Enter the value of k: ");
+    scanf("%d", &k);
+    int matrix[rows][columns];
+    fill_matrix(rows, columns, matrix, k);
+    print_matrix(rows, columns, matrix);
+    return 0;
+}
+
+void fill_matrix(int rows, int columns, int matrix[rows][columns], int k)
+{
+    srand(time(NULL));
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < columns; j++)
+        {
+            if (i % 2 == 0)
+            {
+                matrix[i][j] = rand() % k + 1;
+            }
+            else
+            {
+                matrix[i][j] = 0;
+            }
+            if (j % 2 == 0)
+            {
+                matrix[i][j] = rand() % k + 2;
+            }
+        }
+    }
+}
+
+void print_matrix(int rows, int columns, int matrix[rows][columns])
+{
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < columns; j++)
+        {
+            printf("%d ", matrix[i][j]);
+        }
+        printf("\n");
+    }
+}
