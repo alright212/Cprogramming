@@ -1,0 +1,70 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct node {
+    char data;
+    struct node *next;
+} NodeT;
+
+NodeT *first, *last;
+
+void initializeSll() {
+    first = NULL;
+    last = NULL;
+}
+
+void addLast(char data) {
+    if (first == NULL) {
+        first = (NodeT *) malloc(sizeof(NodeT));
+        first->data = data;
+        first->next = NULL;
+        last = first;
+    } else {
+        NodeT *newElement = (NodeT *) malloc(sizeof(NodeT));
+        newElement->data = data;
+        newElement->next = NULL;
+        last->next = newElement;
+        last = newElement;
+    }
+}
+
+void printAll(FILE *f) {
+    NodeT *current = first;
+    while (current != NULL) {
+        fprintf(f, "%c", current->data);
+        current = current->next;
+    }
+}
+
+int removeN(char c, int n) {
+    int count = 0;
+    NodeT *current = first;
+    while (current != NULL) {
+        if (current->data == c) {
+            count++;
+            if (count <= n) {
+                current->data = ' ';
+            }
+        }
+        current = current->next;
+    }
+    return count;
+}
+
+int main() {
+    FILE *f = fopen("/home/glen/input.txt", "r");
+    FILE *g = fopen("/home/glen/output.txt", "w");
+    char c;
+    int n;
+    initializeSll();
+    while (fscanf(f, "%c", &c) == 1) {
+        addLast(c);
+    }
+    fscanf(f, "%c", &c);
+    fscanf(f, "%d", &n);
+    fprintf(g, "%d", removeN(c, n));
+    fclose(f);
+    fclose(g);
+    return 0;
+}
