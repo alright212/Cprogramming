@@ -1,0 +1,116 @@
+/*VARIANT 4: Kiiruskaamerad
+
+On teelõik, millel lubatud kiirus on 90 km/h. Teelõigu pikkus on 3.6km ja selle mõlemas otsas asuvad kiiruskaamerad. Antud on neli massiivi - esimese kaamera juures märgatud sõiduki number ja kellaaeg ning teise kaamera juures märgatud sõiduki number ja kellaaeg.
+
+Koosta programm, mis leiab, mis sõidukid ületasid kiirust ja kui palju. Kiirust, teepikkust ja aega seob valem: v = s / t. 90 km/h on 25 m/s
+
+Lahenduses kasuta alamprogramme:
+
+Massiivide lugemiseks (üks funktsioon, kaks pöördumist kummagi kaamera jaoks).
+Liiklejate väljastamiseks.
+Aja ja kiiruse arvutamiseks.
+Kiiruseületajate väljastamiseks.
+Lähtefail on nimega 4a.txt*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+
+#define MAX_LENGTH_OF_CAR_NUMBER 6
+#define MAX_LENGTH_OF_TIME 8
+#define MAX_LENGTH_OF_LINE (MAX_LENGTH_OF_CAR_NUMBER + MAX_LENGTH_OF_TIME + 2)
+#define MAX_NUMBER_OF_CARS 100
+#define MAX_NUMBER_OF_CARS_IN_CAMERA_FILE 5
+#define MAX_NUMBER_OF_CAMERAS 2
+#define MAX_SPEED_LIMIT 90
+#define MAX_SPEED_LIMIT_IN_M_PER_SECOND 25
+#define MAX_DISTANCE_BETWEEN_CAMERAS 3600
+#define MAX_TIME_BETWEEN_CAMERAS_IN_SECONDS MAX_DISTANCE_BETWEEN_CAMERAS / MAX_SPEED_LIMIT_IN_M_PER_SECOND
+
+typedef struct {
+	char carNumber[MAX_LENGTH_OF_CAR_NUMBER];
+	int hours;
+	int minutes;
+	int seconds;
+} Car;
+
+void readCarsFromFile(Car cars[], int *numberOfCars, int cameraNumber);
+void printCars(Car cars[], int numberOfCars);
+void calculateTimeAndSpeed(Car cars[], int numberOfCars, int cameraNumber);
+void printSpeedingCars(Car cars[], int numberOfCars);
+
+int main() {
+	Car cars[MAX_NUMBER_OF_CARS];
+	int numberOfCars = 0;
+
+	readCarsFromFile(cars, &numberOfCars, 1);
+	printCars(cars, numberOfCars);
+	calculateTimeAndSpeed(cars, numberOfCars, 1);
+
+	readCarsFromFile(cars, &numberOfCars, 2);
+	printCars(cars, numberOfCars);
+	calculateTimeAndSpeed(cars, numberOfCars, 2);
+
+	printSpeedingCars(cars, numberOfCars);
+
+	return 0;
+}
+
+void readCarsFromFile(Car cars[], int *numberOfCars, int cameraNumber) {
+	FILE *file;
+	char fileName[MAX_LENGTH_OF_CAR_NUMBER];
+	char line[MAX_LENGTH_OF_LINE];
+	int i;
+
+	sprintf(fileName, "4a%d.txt", cameraNumber);
+	file = fopen(fileName, "r");
+	if (file == NULL) {
+		printf("Error opening file %s\n", fileName);
+		exit(1);
+	}
+
+	fgets(line, MAX_LENGTH_OF_LINE, file);
+	sscanf(line, "%d", numberOfCars);
+
+	for (i = 0; i < *numberOfCars; i++) {
+		fgets(line, MAX_LENGTH_OF_LINE, file);
+		sscanf(line, "%s %d:%d:%d", cars[i].carNumber, &cars[i].hours, &cars[i].minutes, &cars[i].seconds);
+	}
+
+	fclose(file);
+}
+
+void printCars(Car cars[], int numberOfCars) {
+	int i;
+
+	printf("\n");
+	for (i = 0; i < numberOfCars; i++) {
+		printf("%s %d:%d:%d\n", cars[i].carNumber, cars[i].hours, cars[i].minutes, cars[i].seconds);
+	}
+}
+
+void calculateTimeAndSpeed(Car cars[], int numberOfCars, int cameraNumber) {
+	int i;
+	int timeInSeconds;
+	int timeBetweenCamerasInSeconds;
+	double speed;
+
+	for (i = 0; i < numberOfCars; i++) {
+		timeInSeconds = cars[i].hours * 3600 + cars[i].minutes * 60 + cars[i].seconds;
+		timeBetweenCamerasInSeconds = timeInSeconds - cars[i].timeBetweenCamerasInSeconds;
+		speed = MAX_DISTANCE_BETWEEN_CAMERAS / timeBetweenCamerasInSeconds;
+		cars[i].speed = speed;
+	}
+}
+
+void printSpeedingCars(Car cars[], int numberOfCars) {
+	int i;
+
+	printf("\n");
+	for (i = 0; i < numberOfCars; i++) {
+		if (cars[i].speed > MAX_SPEED_LIMIT) {
+			printf("%s %.2lf\n", cars[i].carNumber, cars[i].speed);
+		}
+	}
+}
