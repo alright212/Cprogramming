@@ -1,0 +1,38 @@
+/*Write a one-threaded program that tries all three-digit combinations to find the password that matches the hash.*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <openssl/md5.h>
+
+int main(int argc, char *argv[])
+{
+	int i, j, k;
+	char pass[4];
+	char *hash;
+	unsigned char digest[MD5_DIGEST_LENGTH];
+	
+	for (i = 0; i < 10; i++)
+	{
+		for (j = 0; j < 10; j++)
+		{
+			for (k = 0; k < 10; k++)
+			{
+				sprintf(pass, "%d%d%d", i, j, k);
+				MD5((unsigned char*)&pass, strlen(pass), (unsigned char*)&digest);
+				hash = (char*)malloc(33);
+				for (int l = 0; l < 16; l++)
+				{
+					sprintf(&hash[l * 2], "%02x", (unsigned int)digest[l]);
+				}
+				if (strcmp(hash, "c3fcd3d76192e4007dfb496cca67e13b") == 0)
+				{
+					printf("%s\n", pass);
+					return 0;
+				}
+				free(hash);
+			}
+		}
+	}
+	return 0;
+}
