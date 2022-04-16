@@ -30,6 +30,74 @@ Joomakaaslased	Anti	98.5
 Kirsipuu_oks	Ats	94.5
 Metsatukas	Peeter	94.0
 Konserviavaja	Anti	88.0
+Mida see kood teeb?
+
+    Loeb andmeid failist
+    Filtreerib andmeid
+    Prindib osalejad
+    Sorteerib osalejad
+    Prindib kolm parimat osalejat
+
+Mis on sisend?
+
+    Faili nimi
+
+Mis on väljund?
+
+    Osalejad
+    Esikolmik osalejat
+
+Mis on sisendvorming?
+
+    Esimene rida sisaldab fotode arvu
+    Järgmised read sisaldavad osaleja nime ja tulemust
+
+Mis on väljundvorming?
+
+    Osalejad trükitakse järgmises vormingus:
+        <nimi> <fotode arv>
+    Kolm parimat osalejat trükitakse järgmises vormingus:
+        <nimi> <tulemus>
+
+Mis on sisendfaili formaat?
+
+    Esimene rida sisaldab fotode arvu
+    Järgmised read sisaldavad osaleja nime ja tulemust
+
+Mis on väljundfaili formaat?
+
+    Osalejad trükitakse järgmises vormingus:
+        <nimi> <fotode arv>
+    Kolm parimat osalejat trükitakse järgmises vormingus:
+        <nimi> <tulemus>
+
+Mis on sisendfaili nimi?
+
+    tulemused.txt
+
+Mis on väljundfaili nimi?
+
+    tulemused.välja
+
+Mis on sisendfaili asukoht?
+
+    Sisendfail asub praeguses kataloogis
+
+Mis on väljundfaili asukoht?
+
+    Väljundfail asub praeguses kataloogis
+
+Mis on sisendfaili kirjeldus?
+
+    Esimene rida sisaldab fotode arvu
+    Järgmised read sisaldavad osaleja nime ja tulemust
+
+Mis on väljundfaili kirjeldus?
+
+    Osalejad trükitakse järgmises vormingus:
+        <nimi> <fotode arv>
+    Kolm parimat osalejat trükitakse järgmises vormingus:
+        <nimi> <tulemus>
 */
 #include <stdio.h>
 #include <string.h>
