@@ -38,13 +38,16 @@ typedef struct{
 	char name[20];
 	int length;
 }dancer;
-
+/*
+See võtab massiivi tantsijaid ja tantsijate arvu.
+Sellel on kirjas iga tantsija nimi ja pikkus.
+*/
 void read(dancer *dancers, int n){
 	for(int i = 0; i < n; i++){
 		scanf("%s %d", dancers[i].name, &dancers[i].length);
 	}
 }
-
+/*See võtab hulga tantsijaid ja massiivi tantsijate arvu. See sorteerib tantsijate massiivi pikkuse kahanevas järjekorras. See ei tagasta midagi.*/
 void sort(dancer *dancers, int n){
 	for(int i = 0; i < n-1; i++){
 		for(int j = i+1; j < n; j++){
