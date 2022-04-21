@@ -1,0 +1,232 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+
+// Hash function to find the bucket index.
+int hash(char *key, int size)
+{
+	int hash = 0;
+	int n;
+
+	for (int i = 0; i < strlen(key); i++)
+	{
+		// get the ascii value of each character of the key
+		// and add it to the hash
+		n = key[i] - 'a';
+		hash = (hash + n) % size;
+	}
+	return hash;
+}
+
+// Create the hash map
+// using single linked list
+typedef struct Node
+{
+	char *key;
+	char *val;
+	struct Node *next;
+} Node;
+
+Node *hash_table[50];
+
+// Insert a new key value pair
+void set_val(char *key, char *val)
+{
+	// Find the bucket index using the hash function
+	int bucket_index = hash(key, 50);
+
+	// search if the key already exists in the bucket
+	Node *prev;
+	Node *entry = hash_table[bucket_index];
+	while (entry != NULL)
+	{
+		if (strcmp(entry->key, key) == 0)
+		{
+			// if the key already exists
+			// update the value
+			entry->val = val;
+			return;
+		}
+		prev = entry;
+		entry = prev->next;
+	}
+
+	// If the key does not exist in the bucket
+	// create a new entry and insert it
+	entry = (Node *)malloc(sizeof(Node));
+	entry->key = key;
+	entry->val = val;
+	entry->next = NULL;
+
+	if (prev == NULL)
+		hash_table[bucket_index] = entry;
+	else
+		prev->next = entry;
+
+	return;
+}
+
+// Search and return a record value with specific key
+char *get_val(char *key)
+{
+	// Find the bucket index using the hash function
+	int bucket_index = hash(key, 50);
+
+	Node *entry = hash_table[bucket_index];
+	while (entry != NULL)
+	{
+		if (strcmp(entry->key, key) == 0)
+			return entry->val;
+		entry = entry->next;
+	}
+	return NULL;
+}
+
+// Delete a record with specific key
+void delete_val(char *key)
+{
+	// Find the bucket index using the hash function
+	int bucket_index = hash(key, 50);
+
+	Node *prev;
+	Node *entry = hash_table[bucket_index];
+	while (entry != NULL)
+	{
+		if (strcmp(entry->key, key) == 0)
+			break;
+		prev = entry;
+		entry = prev->next;
+	}
+
+	if (entry == NULL)
+		printf("No record found");
+	else
+	{
+		if (prev == NULL)
+			hash_table[bucket_index] = entry->next;
+		else
+			prev->next = entry->next;
+		free(entry);
+	}
+
+	return;
+}
+
+int main()
+{
+
+	return 0;
+}
+class HashTable:
+
+	# Create empty bucket list of given size
+	def __init__(self, size):
+		self.size = size
+		self.hash_table = self.create_buckets()
+
+	def create_buckets(self):
+		return [[] for _ in range(self.size)]
+
+	# Insert values into hash map
+	def set_val(self, key, val):
+		
+		# Get the index from the key
+		# using hash function
+		hashed_key = hash(key) % self.size
+		
+		# Get the bucket corresponding to index
+		bucket = self.hash_table[hashed_key]
+
+		found_key = False
+		for index, record in enumerate(bucket):
+			record_key, record_val = record
+			
+			# check if the bucket has same key as
+			# the key to be inserted
+			if record_key == key:
+				found_key = True
+				break
+
+		# If the bucket has same key as the key to be inserted,
+		# Update the key value
+		# Otherwise append the new key-value pair to the bucket
+		if found_key:
+			bucket[index] = (key, val)
+		else:
+			bucket.append((key, val))
+
+	# Return searched value with specific key
+	def get_val(self, key):
+		
+		# Get the index from the key using
+		# hash function
+		hashed_key = hash(key) % self.size
+		
+		# Get the bucket corresponding to index
+		bucket = self.hash_table[hashed_key]
+
+		found_key = False
+		for index, record in enumerate(bucket):
+			record_key, record_val = record
+			
+			# check if the bucket has same key as
+			# the key being searched
+			if record_key == key:
+				found_key = True
+				break
+
+		# If the bucket has same key as the key being searched,
+		# Return the value found
+		# Otherwise indicate there was no record found
+		if found_key:
+			return record_val
+		else:
+			return "No record found"
+
+	# Remove a value with specific key
+	def delete_val(self, key):
+		
+		# Get the index from the key using
+		# hash function
+		hashed_key = hash(key) % self.size
+		
+		# Get the bucket corresponding to index
+		bucket = self.hash_table[hashed_key]
+
+		found_key = False
+		for index, record in enumerate(bucket):
+			record_key, record_val = record
+			
+			# check if the bucket has same key as
+			# the key to be deleted
+			if record_key == key:
+				found_key = True
+				break
+		if found_key:
+			bucket.pop(index)
+		return
+
+	# To print the items of hash map
+	def __str__(self):
+		return "".join(str(item) for item in self.hash_table)
+
+
+hash_table = HashTable(50)
+
+# insert some values
+hash_table.set_val('gfg@example.com', 'some value')
+print(hash_table)
+print()
+
+hash_table.set_val('portal@example.com', 'some other value')
+print(hash_table)
+print()
+
+# search/access a record with key
+print(hash_table.get_val('portal@example.com'))
+print()
+
+# delete or remove a value
+hash_table.delete_val('portal@example.com')
+print(hash_table)
