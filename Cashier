@@ -1,0 +1,49 @@
+/*Selle ülesande jaoks loo uus fail nimega cashier.c.
+
+Kujuta ette, et oled kassapidaja. Iga kord, kui on vaja kliendile sente tagasi anda, mingi summa x, tahad sa teada, mitu senti on sul minimaalselt vaja kliendile tagasi anda.
+
+Sinu ülesandeks on luua programm, mis saab sisendiks arvu (alati vahemikus 1-100) ning prindib konsooli, mitu senti on vaja minimaalselt tagastada, et sisestatud summat katta. Kassas on sendid järgmiste väärtustega: (1, 5, 10, 20, 50)
+
+Näide sisendiga 63:
+
+Enter a sum: 63
+Amount of coins needed: 5
+
+Antud näites tagastatakse mündid: 50, 10, 1, 1, 1
+
+NB! Programmis peavad olema sõned täpselt samal kujul. Sisendi küsimise puhul: "Enter a sum: " ja väljundi puhul: "Amount of coins needed: [sentide arv]"*/
+#include <stdio.h>
+
+int main()
+{
+    int sum;
+    int coins = 0;
+    printf("Enter the sum: ");
+    scanf("%d", &sum);
+    if (sum >= 50)
+    {
+        coins += sum / 50;
+        sum = sum % 50;
+    }
+    if (sum >= 20)
+    {
+        coins += sum / 20;
+        sum = sum % 20;
+    }
+    if (sum >= 10)
+    {
+        coins += sum / 10;
+        sum = sum % 10;
+    }
+    if (sum >= 5)
+    {
+        coins += sum / 5;
+        sum = sum % 5;
+    }
+    if (sum >= 1)
+    {
+        coins += sum;
+    }
+    printf("Amount of coins needed: %d\n", coins);
+    return 0;
+}
