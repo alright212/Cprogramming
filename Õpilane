@@ -1,0 +1,93 @@
+/*Student - objekti loomisel antakse kaasa kolm parameetrit: nimi, keskmine hinne ja ainepunktid.
+
+create_student - funktsioon saab ette Studenti nime, hinnete järjendi ning ainepunktide arvu. Tagasta Student objekt, millel on etteantud nimi, antud hinnete keskmine hinne (ümardatud kolme komakohani) ning antud ainepunktide arv.
+
+get_top_student_with_credit_points - funktsioon saab sisendiks järjendi Student objektidest ja miinimum ainepunktide arvu. Tagasta Student, kellel on kõige kõrgem keskmine hinne ning vähemalt miinimum ainepunktide arv ainepunkte. Kui selliseid Student'e on mitu, tagasta neid esimene listis. Kui sellist Studenti pole, tagasta None.
+
+add_result_to_student - funktsioon saab sisendiks Student objekti, hinnete koguse, uue hinde ning ainepunktide arvu. Muuda etteantud Student objekti, andes talle uus keskmine hinne ja uuendades tema ainepunktide arvu. Ümarda uue keskmine hinne kolme komakohani. Uue keskmise hinde arvutamise valem: (hinnete kogus * praegune keskmine hinne + uus hinne) / uus hinnete kogus
+
+get_ordered_students - funktsioon saab sisendiks järjendi Student objektidest. Tagasta järjend, milles on antud Student objektid sorteeritud esiteks ainepunktide arvu järgi kahanevalt, teiseks keskmise hinde järgi kahanevalt ning kolmandaks nime järgi kasvavalt.
+
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+
+typedef struct {
+    char *name;
+    double average_grade;
+    int credits;
+} Student;
+
+Student create_student(char *name, double average_grade, int credits) {
+    Student student;
+    student.name = name;
+    student.average_grade = average_grade;
+    student.credits = credits;
+    return student;
+}
+
+Student get_top_student_with_credit_points(Student *students, int n, int min_credits) {
+    Student top_student = create_student("", 0, 0);
+    for (int i = 0; i < n; i++) {
+        if (students[i].credits >= min_credits && students[i].average_grade > top_student.average_grade) {
+            top_student = students[i];
+        }
+    }
+    if (top_student.name[0] == '\0') {
+        return create_student("", 0, 0);
+    }
+    return top_student;
+}
+
+void add_result_to_student(Student *student, int grades, double new_grade, int credits) {
+    student->average_grade = (student->average_grade * student->credits + new_grade * credits) / (student->credits + credits);
+    student->credits += credits;
+}
+
+int compare_students(const void *a, const void *b) {
+    Student *student_a = (Student *) a;
+    Student *student_b = (Student *) b;
+    if (student_a->credits != student_b->credits) {
+        return student_b->credits - student_a->credits;
+    } else if (student_a->average_grade != student_b->average_grade) {
+        return student_b->average_grade - student_a->average_grade;
+    } else {
+        return strcmp(student_a->name, student_b->name);
+    }
+}
+
+Student *get_ordered_students(Student *students, int n) {
+    qsort(students, n, sizeof(Student), compare_students);
+    return students;
+}
+
+int main() {
+    Student students[] = {
+            create_student("John", 4.0, 10),
+            create_student("Jane", 5.0, 10),
+            create_student("John", 3.0, 10),
+            create_student("Jane", 4.0, 10),
+            create_student("John", 4.0, 10),
+            create_student("Jane", 4.0, 10),
+            create_student("John", 4.0, 10),
+            create_student("Jane", 4.0, 10),
+            create_student("John", 4.0, 10),
+            create_student("Jane", 4.0, 10),
+            create_student("John", 4.0, 10),
+            create_student("Jane", 4.0, 10),
+            create_student("John", 4.0, 10),
+            create_student("Jane", 4.0, 10),
+};
+    Student top_student = get_top_student_with_credit_points(students, 14, 10);
+    printf("%s %.3f %d\n", top_student.name, top_student.average_grade, top_student.credits);
+    add_result_to_student(&students[0], 10, 5.0, 10);
+    printf("%s %.3f %d\n", students[0].name, students[0].average_grade, students[0].credits);
+    Student *ordered_students = get_ordered_students(students, 14);
+    for (int i = 0; i < 14; i++) {
+        printf("%s %.3f %d\n", ordered_students[i].name, ordered_students[i].average_grade, ordered_students[i].credits);
+    }
+    return 0;
+}
