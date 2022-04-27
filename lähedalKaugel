@@ -1,0 +1,27 @@
+/*Kirjuta funktsioon, mis kontrollib, kas üks argument on "lähedal" ja teine "kaugel". 
+Funktsioon saab sisendiks 3 täisarvu. Funktsioon tagastab True, kui b või c on arvule a lähedal (vahe on maksimaalselt 1) ja teine on kaugel (vahe kahe teise arvuga on 2 või rohkem).
+
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+int close_far(int a, int b, int c)
+{
+    if (abs(a - b) <= 1 && abs(a - c) >= 2 && abs(b - c) >= 2)
+        return 1;
+    if (abs(a - c) <= 1 && abs(a - b) >= 2 && abs(b - c) >= 2)
+        return 1;
+    return 0;
+}
+
+int main()
+{
+    int a, b, c;
+    printf("Enter three numbers: ");
+    scanf("%d %d %d", &a, &b, &c);
+    if (close_far(a, b, c))
+        printf("True");
+    else
+        printf("False");
+    return 0;
+}
