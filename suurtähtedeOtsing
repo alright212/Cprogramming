@@ -1,0 +1,27 @@
+/*Kirjuta funktsioon, mis leiab ette antud sõnest üles kõik suurtähed. Sisend koosneb vaid ladina tähtedest (a-z ja A-Z). 
+Tulemuses peavad suured tähed olema samas järjekorras nagu sisendis.*/
+#include <stdio.h>
+#include <string.h>
+
+void find_capital_letters(char *word, char *result)
+{
+    int i, j = 0;
+    for (i = 0; i < strlen(word); i++)
+    {
+        if (word[i] >= 'A' && word[i] <= 'Z')
+        {
+            result[j] = word[i];
+            j++;
+        }
+    }
+    result[j] = '\0';
+}
+
+int main()
+{
+    char word[100], result[100];
+    scanf("%s", word);
+    find_capital_letters(word, result);
+    printf("%s", result);
+    return 0;
+}
