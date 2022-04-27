@@ -1,0 +1,94 @@
+/*Translate this into C code.  Write a function that returns the full message. Write a function that returns the full year. Write a function that returns the gender. Write a function that returns the location. Write a function that returns the full date. Write a function that returns the full name. Write a function that returns the age. Write a function that returns the zodiac sign. Write a function that returns the Chinese zodiac sign. Write a function that returns the day of the week. Write a function that returns the week number.*/
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <math.h>
+
+char *get_message(int age, char *gender, char *location, int year, int month, int day, char *name, char *zodiac, char *chinese_zodiac, char *day_of_week, int week_number)
+{
+    char *message = malloc(sizeof(char) * 1000);
+    sprintf(message, "Hello %s, you are a %s %s born on %s, %d %d, %d. You are %d years old. Your zodiac sign is %s and your Chinese zodiac sign is %s. You were born on a %s and this is week number %d.", name, gender, location, day_of_week, month, day, year, age, zodiac, chinese_zodiac, day_of_week, week_number);
+    return message;
+}
+
+int get_year(int age, char *gender, char *location, int year, int month, int day, char *name, char *zodiac, char *chinese_zodiac, char *day_of_week, int week_number)
+{
+    return year;
+}
+
+char *get_gender(int age, char *gender, char *location, int year, int month, int day, char *name, char *zodiac, char *chinese_zodiac, char *day_of_week, int week_number)
+{
+    return gender;
+}
+
+char *get_location(int age, char *gender, char *location, int year, int month, int day, char *name, char *zodiac, char *chinese_zodiac, char *day_of_week, int week_number)
+{
+    return location;
+}
+
+char *get_date(int age, char *gender, char *location, int year, int month, int day, char *name, char *zodiac, char *chinese_zodiac, char *day_of_week, int week_number)
+{
+    char *date = malloc(sizeof(char) * 1000);
+    sprintf(date, "%d %d, %d", month, day, year);
+    return date;
+}
+
+char *get_name(int age, char *gender, char *location, int year, int month, int day, char *name, char *zodiac, char *chinese_zodiac, char *day_of_week, int week_number)
+{
+    return name;
+}
+
+int get_age(int age, char *gender, char *location, int year, int month, int day, char *name, char *zodiac, char *chinese_zodiac, char *day_of_week, int week_number)
+{
+    return age;
+}
+
+char *get_zodiac(int age, char *gender, char *location, int year, int month, int day, char *name, char *zodiac, char *chinese_zodiac, char *day_of_week, int week_number)
+{
+    return zodiac;
+}
+
+char *get_chinese_zodiac(int age, char *gender, char *location, int year, int month, int day, char *name, char *zodiac, char *chinese_zodiac, char *day_of_week, int week_number)
+{
+    return chinese_zodiac;
+}
+
+char *get_day_of_week(int age, char *gender, char *location, int year, int month, int day, char *name, char *zodiac, char *chinese_zodiac, char *day_of_week, int week_number)
+{
+    return day_of_week;
+}
+
+int get_week_number(int age, char *gender, char *location, int year, int month, int day, char *name, char *zodiac, char *chinese_zodiac, char *day_of_week, int week_number)
+{
+    return week_number;
+}
+
+int main()
+{
+    int age = 0;
+    char *gender = "";
+    char *location = "";
+    int year = 0;
+    int month = 0;
+    int day = 0;
+    char *name = "";
+    char *zodiac = "";
+    char *chinese_zodiac = "";
+    char *day_of_week = "";
+    int week_number = 0;
+
+    printf("%s\n", get_message(age, gender, location, year, month, day, name, zodiac, chinese_zodiac, day_of_week, week_number));
+    printf("%d\n", get_year(age, gender, location, year, month, day, name, zodiac, chinese_zodiac, day_of_week, week_number));
+    printf("%s\n", get_gender(age, gender, location, year, month, day, name, zodiac, chinese_zodiac, day_of_week, week_number));
+    printf("%s\n", get_location(age, gender, location, year, month, day, name, zodiac, chinese_zodiac, day_of_week, week_number));
+    printf("%s\n", get_date(age, gender, location, year, month, day, name, zodiac, chinese_zodiac, day_of_week, week_number));
+    printf("%s\n", get_name(age, gender, location, year, month, day, name, zodiac, chinese_zodiac, day_of_week, week_number));
+    printf("%d\n", get_age(age, gender, location, year, month, day, name, zodiac, chinese_zodiac, day_of_week, week_number));
+    printf("%s\n", get_zodiac(age, gender, location, year, month, day, name, zodiac, chinese_zodiac, day_of_week, week_number));
+    printf("%s\n", get_chinese_zodiac(age, gender, location, year, month, day, name, zodiac, chinese_zodiac, day_of_week, week_number));
+    printf("%s\n", get_day_of_week(age, gender, location, year, month, day, name, zodiac, chinese_zodiac, day_of_week, week_number));
+    printf("%d\n", get_week_number(age, gender, location, year, month, day, name, zodiac, chinese_zodiac, day_of_week, week_number));
+
+    return 0;
+}
