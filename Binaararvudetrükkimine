@@ -1,0 +1,171 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+void print_binary(int number, int size);
+void print_decimal(int number, int size);
+void print_opposite(int number, int size);
+
+int main()
+{
+    int number, size;
+    printf("Enter number: ");
+    scanf("%d", &number);
+    printf("Enter size: ");
+    scanf("%d", &size);
+    print_binary(number, size);
+    print_decimal(number, size);
+    print_opposite(number, size);
+    return 0;
+}
+
+void print_binary(int number, int size)
+{
+    int i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z;
+    int a[size];
+    for(i = 0; i < size; i++)
+    {
+        a[i] = number % 2;
+        number = number / 2;
+    }
+    for(j = size - 1; j >= 0; j--)
+    {
+        printf("%d", a[j]);
+    }
+    printf("\n");
+    for(k = size - 1; k >= 0; k--)
+    {
+        printf("%d", a[k]);
+        if(k % 4 == 0)
+        {
+            printf(" ");
+        }
+    }
+    printf("\n");
+}
+
+void print_decimal(int number, int size)
+{
+    int i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z;
+    int a[size];
+    for(i = 0; i < size; i++)
+    {
+        a[i] = number % 2;
+        number = number / 2;
+    }
+    for(j = size - 1; j >= 0; j--)
+    {
+        printf("%d", a[j]);
+    }
+    printf("\n");
+    for(k = size - 1; k >= 0; k--)
+    {
+        printf("%d", a[k]);
+        if(k % 4 == 0)
+        {
+            printf(" ");
+        }
+    }
+    printf("\n");
+    for(l = 0; l < size; l++)
+    {
+        if(a[l] == 1)
+        {
+            a[l] = 0;
+        }
+        else
+        {
+            a[l] = 1;
+        }
+    }
+    for(m = size - 1; m >= 0; m--)
+    {
+        printf("%d", a[m]);
+    }
+    printf("\n");
+    for(n = size - 1; n >= 0; n--)
+    {
+        printf("%d", a[n]);
+        if(n % 4 == 0)
+        {
+            printf(" ");
+        }
+    }
+    printf("\n");
+}
+
+void print_opposite(int number, int size)
+{
+    int i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z;
+    int a[size];
+    for(i = 0; i < size; i++)
+    {
+        a[i] = number % 2;
+        number = number / 2;
+    }
+    for(j = size - 1; j >= 0; j--)
+    {
+        printf("%d", a[j]);
+    }
+    printf("\n");
+    for(k = size - 1; k >= 0; k--)
+    {
+        printf("%d", a[k]);
+        if(k % 4 == 0)
+        {
+            printf(" ");
+        }
+    }
+    printf("\n");
+    for(l = 0; l < size; l++)
+    {
+        if(a[l] == 1)
+        {
+            a[l] = 0;
+        }
+        else
+        {
+            a[l] = 1;
+        }
+    }
+    for(m = size - 1; m >= 0; m--)
+    {
+        printf("%d", a[m]);
+    }
+    printf("\n");
+    for(n = size - 1; n >= 0; n--)
+    {
+        printf("%d", a[n]);
+        if(n % 4 == 0)
+        {
+            printf(" ");
+        }
+    }
+    printf("\n");
+    for(o = size - 1; o >= 0; o--)
+    {
+        if(a[o] == 0)
+        {
+            a[o] = 1;
+            break;
+        }
+        else
+        {
+            a[o] = 0;
+        }
+    }
+    for(p = size - 1; p >= 0; p--)
+    {
+        printf("%d", a[p]);
+    }
+    printf("\n");
+    for(q = size - 1; q >= 0; q--)
+    {
+        printf("%d", a[q]);
+        if(q % 4 == 0)
+        {
+            printf(" ");
+        }
+    }
+    printf("\n");
+}
