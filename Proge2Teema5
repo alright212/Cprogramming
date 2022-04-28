@@ -1,0 +1,113 @@
+/*Kirjuta programm mis:
+• Küsib kasutajalt mitu andmerida vaja genereerida
+• Genereerib n tulemust juhuslikult formaadis:
+<indeks> <eesnimi> <perekonnanimi> <matrikkel> <hinne>
+• Väljundfaili salvestatakse genereeritud read sorteeritult perekonnanime järgi (QSORT!)
+• Indeks on unikaalne number (auto_increment), alusta nullist
+• Võid kasutada meie poolt loodud baaskoodi
+• Väljund kirjuta faili
+• Programm peab kasutama massiivide asemel dünaamilist mälu ning pöördumised teha viitade abil
+• NB! Kõik elementaarsed nõuded täita (NULL viitade kontrollid, teegid, jne)
+Mida see kood teeb?
+1. See küsib kasutajalt, mitu õpilast ta soovib genereerida.
+2. See genereerib n õpilast.
+3. See sorteerib õpilased perekonnanime järgi.
+4. See prindib õpilased konsooli.
+5. See kirjutab õpilased faili.
+*/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+
+#define MAX_NAME_LENGTH 20
+#define MAX_SURNAME_LENGTH 20
+#define MAX_REGISTER_LENGTH 10
+#define MAX_RATE_LENGTH 5
+#define MAX_LINE_LENGTH MAX_NAME_LENGTH + MAX_SURNAME_LENGTH + MAX_REGISTER_LENGTH + MAX_RATE_LENGTH + 4
+
+typedef struct {
+    char name[MAX_NAME_LENGTH];
+    char surname[MAX_SURNAME_LENGTH];
+    char register_number[MAX_REGISTER_LENGTH];
+    char rate[MAX_RATE_LENGTH];
+} Student;
+
+void generate_student(Student *student);
+void generate_students(Student **students, int n);
+void print_students(Student **students, int n);
+void print_student(Student *student);
+void write_students_to_file(Student **students, int n);
+void sort_students(Student **students, int n);
+int compare_students(const void *a, const void *b);
+
+int main() {
+    srand(time(NULL));
+    int n;
+    printf("How many students do you want to generate? ");
+    scanf("%d", &n);
+    Student **students = malloc(n * sizeof(Student *));
+    generate_students(students, n);
+    sort_students(students, n);
+    print_students(students, n);
+    write_students_to_file(students, n);
+    return 0;
+}
+
+void generate_student(Student *student) {
+    int i;
+    for (i = 0; i < MAX_NAME_LENGTH; i++) {
+        student->name[i] = 'a' + rand() % 26;
+    }
+    student->name[i] = '\0';
+    for (i = 0; i < MAX_SURNAME_LENGTH; i++) {
+        student->surname[i] = 'a' + rand() % 26;
+    }
+    student->surname[i] = '\0';
+    for (i = 0; i < MAX_REGISTER_LENGTH; i++) {
+        student->register_number[i] = '0' + rand() % 10;
+    }
+    student->register_number[i] = '\0';
+    for (i = 0; i < MAX_RATE_LENGTH; i++) {
+        student->rate[i] = '0' + rand() % 10;
+    }
+    student->rate[i] = '\0';
+}
+
+void generate_students(Student **students, int n) {
+    int i;
+    for (i = 0; i < n; i++) {
+        students[i] = malloc(sizeof(Student));
+        generate_student(students[i]);
+    }
+}
+
+void print_students(Student **students, int n) {
+    int i;
+    for (i = 0; i < n; i++) {
+        print_student(students[i]);
+    }
+}
+
+void print_student(Student *student) {
+    printf("%s %s %s %s\n", student->name, student->surname, student->register_number, student->rate);
+}
+
+void write_students_to_file(Student **students, int n) {
+    FILE *file = fopen("students.txt", "w");
+    int i;
+    for (i = 0; i < n; i++) {
+        fprintf(file, "%s %s %s %s\n", students[i]->name, students[i]->surname, students[i]->register_number, students[i]->rate);
+    }
+    fclose(file);
+}
+
+void sort_students(Student **students, int n) {
+    qsort(students, n, sizeof(Student *), compare_students);
+}
+
+int compare_students(const void *a, const void *b) {
+    Student *student_a = *(Student **) a;
+    Student *student_b = *(Student **) b;
+    return strcmp(student_a->surname, student_b->surname);
+}
