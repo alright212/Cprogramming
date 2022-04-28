@@ -1,0 +1,173 @@
+/*1. Write a C program that would connect to the database given above, queries 5 longest rivers and outputs it on the terminal screen.
+2. Query all rivers that are longer than 70 km and which are considered ’main rivers’ or in other words, rivers that do not flow into another river. Use id_mainriver to identify whether the river is a ’main river’.
+3. Find all the stations that are located on the rivers found in the last task. (using JOIN)
+4. Query the start and end points of the rivers from the database and find the distance between them.
+To find the distance between two points you can use the following formula:
+d = R*acos(sin(lat1)*sin(lat2) + cos(lat1)*cos(lat2)*cos(lon1-lon2));
+where R is the radius of the earth. R=6371 in km. Also keep in mind that the coordinates are in degrees, but trigonometric functions take inputs in radians.*/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <mysql.h>
+#include <math.h>
+#include <pgsql/libpq-fe.h>
+
+#define HOST "localhost"
+#define USER "root"
+#define PASS "root"
+#define DB "rivers"
+
+void finish_with_error(MYSQL *con)
+{
+  fprintf(stderr, "%s\n", mysql_error(con));
+  mysql_close(con);
+  exit(1);        
+}
+
+int main(int argc, char **argv)
+{
+  MYSQL *con = mysql_init(NULL);
+  
+  if (con == NULL) 
+  {
+      fprintf(stderr, "%s\n", mysql_error(con));
+      exit(1);
+  }  
+
+  if (mysql_real_connect(con, HOST, USER, PASS, 
+          DB, 0, NULL, 0) == NULL) 
+  {
+      finish_with_error(con);
+  }    
+  
+  if (mysql_query(con, "SELECT * FROM rivers ORDER BY length DESC LIMIT 5")) 
+  {
+      finish_with_error(con);
+  }
+  
+  MYSQL_RES *result = mysql_store_result(con);
+  
+  if (result == NULL) 
+  {
+      finish_with_error(con);
+  }
+
+  int num_fields = mysql_num_fields(result);
+
+  MYSQL_ROW row;
+  
+  while ((row = mysql_fetch_row(result))) 
+  { 
+      for(int i = 0; i < num_fields; i++) 
+      { 
+          printf("%s ", row[i] ? row[i] : "NULL"); 
+      } 
+          printf("\n"); 
+  }
+  
+  mysql_free_result(result);
+  
+  if (mysql_query(con, "SELECT * FROM rivers WHERE length > 70 AND id_mainriver = 1")) 
+  {
+      finish_with_error(con);
+  }
+  
+  result = mysql_store_result(con);
+  
+  if (result == NULL) 
+  {
+      finish_with_error(con);
+  }
+
+  num_fields = mysql_num_fields(result);
+
+  while ((row = mysql_fetch_row(result))) 
+  { 
+      for(int i = 0; i < num_fields; i++) 
+      { 
+          printf("%s ", row[i] ? row[i] : "NULL"); 
+      } 
+          printf("\n"); 
+  }
+  
+  mysql_free_result(result);
+  
+  if (mysql_query(con, "SELECT * FROM rivers JOIN stations ON rivers.id_river = stations.id_river WHERE length > 70 AND id_mainriver = 1")) 
+  {
+      finish_with_error(con);
+  }
+  
+  result = mysql_store_result(con);
+  
+  if (result == NULL) 
+  {
+      finish_with_error(con);
+  }
+
+  num_fields = mysql_num_fields(result);
+
+  while ((row = mysql_fetch_row(result))) 
+  { 
+      for(int i = 0; i < num_fields; i++) 
+      { 
+          printf("%s ", row[i] ? row[i] : "NULL"); 
+      } 
+          printf("\n"); 
+  }
+  
+  mysql_free_result(result);
+  
+  if (mysql_query(con, "SELECT * FROM rivers JOIN stations ON rivers.id_river = stations.id_river WHERE length > 70 AND id_mainriver = 1")) 
+  {
+      finish_with_error(con);
+  }
+  
+  result = mysql_store_result(con);
+  
+  if (result == NULL) 
+  {
+      finish_with_error(con);
+  }
+
+  num_fields = mysql_num_fields(result);
+
+  while ((row = mysql_fetch_row(result))) 
+  { 
+      for(int i = 0; i < num_fields; i++) 
+      { 
+          printf("%s ", row[i] ? row[i] : "NULL"); 
+      } 
+          printf("\n"); 
+  }
+  
+  mysql_free_result(result);
+  
+  if (mysql_query(con, "SELECT * FROM rivers JOIN stations ON rivers.id_river = stations.id_river WHERE length > 70 AND id_mainriver = 1")) 
+  {
+      finish_with_error(con);
+  }
+  
+  result = mysql_store_result(con);
+  
+  if (result == NULL) 
+  {
+      finish_with_error(con);
+  }
+
+  num_fields = mysql_num_fields(result);
+
+  while ((row = mysql_fetch_row(result))) 
+  { 
+      for(int i = 0; i < num_fields; i++) 
+      { 
+          printf("%s ", row[i] ? row[i] : "NULL"); 
+      } 
+          printf("\n"); 
+  }
+  
+  mysql_free_result(result);
+  
+  mysql_close(con);
+  
+  exit(0);
+}
