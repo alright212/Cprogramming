@@ -1,0 +1,53 @@
+ /*Loe failist sisse töötaja isikuandmed: isikukood, eesnimi, perekonnanimi ja linn.
+• Võid kasutada meie andmefaile või luua endale isikliku
+• Programm peab olema võimeline töötama erineva arvu
+lähteandmetega! (st loetavat hulka sa ei tea, võid defineerida MAXi)
+• Andmed tuleb lugeda struktuuridesse
+• Kasutaja sisestab klaviatuurilt linna nime
+• Programm trükib ekraanile kõik küsitud linnas elavate inimeste isikuandmed • Kui ühtegi isikut ei leitud, siis tuleb sellekohane teade!
+Mida see kood teeb?
+1. See loeb faili töötaja.txt ja salvestab andmed massiivi emp.
+2. See loeb faili töötaja.txt ja salvestab andmed massiivi emp. Seejärel palub see kasutajal sisestada linna ja prindib selles linnas elavate töötajate andmed.
+3. See palub kasutajal sisestada linna ja prindib selles linnas elavate töötajate andmed.
+4. See palub kasutajal sisestada linna ja prindib selles linnas elavate töötajate andmed. Seejärel loeb see faili töötaja.txt ja salvestab andmed massiivi emp.
+5. See loeb faili töötaja.txt ja salvestab andmed massiivi emp. Seejärel palub see kasutajal sisestada linna ja prindib selles linnas elavate töötajate andmed. Seejärel loeb see faili töötaja.txt ja salvestab andmed massiivi emp.
+*/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX 100
+
+typedef struct {
+    char name[20];
+    char surname[20];
+    char city[20];
+    int id;
+} employee;
+
+int main()
+{
+    employee emp[MAX];
+    int i = 0;
+    int j = 0;
+    char city[20];
+    FILE *fp;
+    fp = fopen("employee.txt", "r");
+    if (fp == NULL) {
+        printf("Error opening file!\n");
+        exit(1);
+    }
+    while (fscanf(fp, "%d %s %s %s", &emp[i].id, emp[i].name, emp[i].surname, emp[i].city) != EOF) {
+        i++;
+    }
+    fclose(fp);
+    printf("Enter the city: ");
+    scanf("%s", city);
+    for (j = 0; j < i; j++) {
+        if (strcmp(emp[j].city, city) == 0) {
+            printf("%d %s %s %s\n", emp[j].id, emp[j].name, emp[j].surname, emp[j].city);
+        }
+    }
+    return 0;
+}
+
