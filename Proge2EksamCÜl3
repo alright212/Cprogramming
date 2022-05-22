@@ -1,0 +1,27 @@
+Miks on free() vajalik?
+Funktsioon free() on vajalik malloc() poolt eraldatud mälu eraldamiseks.
+Kui te mälu ei eralda, tekib teie programmis mäluleke.
+
+- Milleks kasutatakse funktsioone atoi() ja atof()? Mis nende vastandfunktsioonid
+on?
+Funktsiooni atoi() kasutatakse stringi täisarvuks teisendamiseks. Funktsiooni atof() kasutatakse stringi teisendamiseks ujukomaarvuks. 
+Vastandfunktsioonid on itoa() ja ftoa(), mis teisendavad täisarvud ja ujukomaarvud vastavalt stringideks.
+
+- Mis objekt andmebaasis on view? Mille jaoks seda kasutatakse?
+Vaade on andmebaasis olev objekt, mida kasutatakse päringu salvestamiseks.
+
+- Mis lisavõimalused on XML failis andmete esitamiseks võrreldes näiteks CSV failiga?
+XML-faili saab vormindada nii, et see sisaldaks andmeid kirjeldavaid silte, mis muudab andmete mõistmise lihtsamaks. 
+Lisaks saab XML-faili valideerida, et tagada selle korrektsus ja andmete kehtivus.
+
+- Antud on muutujad:
+int a, *p;
+Milline järgmistest variantidest tuleb valida, et muutuja a saaks väärtuseks 25? Miks?
+a) p = &a; p = 25;
+b) p = *a; *p = 25;
+c) p = &a; *p = 25;
+d) p = *a; &p = 25;
+
+c) p = & a; * p = 25;
+
+Muutuja a peab olema 25, et p saaks sellele osutada.
