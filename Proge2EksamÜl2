@@ -1,0 +1,36 @@
+/*Write a program that converts a text file that contains a given integer to an HTML list
+Example:
+<ol>
+  <li>Coffee</li>
+  <li>Tea</li>
+  <li>Milk</li>
+</ol>
+
+<ol start="50">
+  <li>Coffee</li>
+  <li>Tea</li>
+  <li>Milk</li>
+</ol>
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main()
+{
+    FILE *f = fopen("input.txt", "r");
+    FILE *f2 = fopen("output.html", "w");
+    char line[100];
+    int start = 0;
+    fscanf(f, "%d", &start);
+    fprintf(f2, "<ol start=\"%d\">\n", start);
+    while(fgets(line, 100, f))
+    {
+        fprintf(f2, "  <li>%s</li>\n", line);
+    }
+    fprintf(f2, "</ol>");
+    fclose(f);
+    fclose(f2);
+    return 0;
+}
