@@ -1,0 +1,117 @@
+/*You have received a file with apartment sales offers. The file contains the following information:
+- District
+- Address
+- Number of rooms
+- Area (square meters)
+- Floor / number of floors
+- Price (in euros)
+Create a program that solves the following tasks:
+- Show the average floor and the average number of floors in the apartment building (exclude single-storey buildings).
+- Show average price per square meter and average area by number of rooms requested.
+- Show the requested district apartments that are not located on the top floor.
+The following principles must be observed when drawing up the program:
+- Data is read from the source file.
+- Dynamic memory allocation (excluding text fields) is used.
+- At least three meaningful sub-functions have been used in the program.
+- Basic checks for faults are in use.
+- If the search returns no results, a message should appear.
+- The program should be able to handle an arbitrary number of offers.
+*/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_STRING_LENGTH 100
+
+typedef struct {
+    char district[MAX_STRING_LENGTH];
+    char address[MAX_STRING_LENGTH];
+    int rooms;
+    float area;
+    int floor;
+    int floors;
+    float price;
+} Offer;
+
+Offer *readOffers(char *fileName, int *offerCount);
+void printOffers(Offer *offers, int offerCount);
+void printAverageFloor(Offer *offers, int offerCount);
+void printAverageAreaByRooms(Offer *offers, int offerCount);
+void printOffersByDistrict(Offer *offers, int offerCount, char *district);
+
+int main() {
+    int offerCount;
+    Offer *offers = readOffers("offers.txt", &offerCount);
+    printOffers(offers, offerCount);
+    printAverageFloor(offers, offerCount);
+    printAverageAreaByRooms(offers, offerCount);
+    printOffersByDistrict(offers, offerCount, "Kesklinn");
+    free(offers);
+    return 0;
+}
+
+Offer *readOffers(char *fileName, int *offerCount) {
+    FILE *file = fopen(fileName, "r");
+    if (file == NULL) {
+        printf("Error opening file %s\n", fileName);
+        exit(1);
+    }
+    fscanf(file, "%d", offerCount);
+    Offer *offers = (Offer *) malloc(sizeof(Offer) * (*offerCount));
+    for (int i = 0; i < *offerCount; i++) {
+        fscanf(file, "%s %s %d %f %d %d %f", offers[i].district, offers[i].address, &offers[i].rooms, &offers[i].area, &offers[i].floor, &offers[i].floors, &offers[i].price);
+    }
+    fclose(file);
+    return offers;
+}
+
+void printOffers(Offer *offers, int offerCount) {
+    printf("Offers:\n");
+    for (int i = 0; i < offerCount; i++) {
+        printf("%s %s %d %.2f %d %d %.2f\n", offers[i].district, offers[i].address, offers[i].rooms, offers[i].area, offers[i].floor, offers[i].floors, offers[i].price);
+    }
+}
+
+void printAverageFloor(Offer *offers, int offerCount) {
+    int floorSum = 0;
+    int floorsSum = 0;
+    int count = 0;
+    for (int i = 0; i < offerCount; i++) {
+        if (offers[i].floors > 1) {
+            floorSum += offers[i].floor;
+            floorsSum += offers[i].floors;
+            count++;
+        }
+    }
+    printf("Average floor: %.2f\n", (float) floorSum / count);
+    printf("Average floors: %.2f\n", (float) floorsSum / count);
+}
+
+void printAverageAreaByRooms(Offer *offers, int offerCount) {
+    int rooms[10] = {0};
+    float area[10] = {0};
+    for (int i = 0; i < offerCount; i++) {
+        rooms[offers[i].rooms]++;
+        area[offers[i].rooms] += offers[i].area;
+    }
+    for (int i = 0; i < 10; i++) {
+        if (rooms[i] > 0) {
+            printf("Average area for %d rooms: %.2f\n", i, area[i] / rooms[i]);
+        }
+    }
+}
+
+void printOffersByDistrict(Offer *offers, int offerCount, char *district) {
+    int found = 0;
+    for (int i = 0; i < offerCount; i++) {
+        if (strcmp(offers[i].district, district) == 0 && offers[i].floor < offers[i].floors) {
+            printf("%s %s %d %.2f %d %d %.2f\n", offers[i].district, offers[i].address, offers[i].rooms, offers[i].area, offers[i].floor, offers[i].floors, offers[i].price);
+            found = 1;
+        }
+    }
+    if (!found) {
+        printf("No offers found\n");
+    }
+}
+
+*/
